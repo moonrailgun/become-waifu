@@ -1,0 +1,18 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Diana1.0.moc3",
+		"Textures": [
+			"Diana1.0.2048/texture_00.png"
+		],
+		"Physics": "Diana1.0.physics3.json",
+		"DisplayInfo": "Diana1.0.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
