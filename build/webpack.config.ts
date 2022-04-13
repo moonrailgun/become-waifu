@@ -50,6 +50,7 @@ const config: Configuration = {
     // filename: '[name].[contenthash].js',
     filename: 'become-waifu.js',
     publicPath: ASSET_PATH,
+    asyncChunks: false,
   },
   module: {
     rules: [
