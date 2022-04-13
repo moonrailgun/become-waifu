@@ -68,9 +68,11 @@ if (!(window as any).Live2D || !(window as any).Live2DCubismCore) {
   isCubismLoad.value = true;
 }
 
+/**
+ * 开始创建转换
+ */
 async function create() {
   // console.log('创建live2d模型');
-  // import('./live2d');
   import('./demo');
 }
 

@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+}
+
+.become-waifu {
+  .preview {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #222;
+
+    display: none;
+
+    video {
+      max-width: 400px;
+      height: auto;
+      transform: scale(-1, 1);
+    }
+
+    .guides {
+      transform: scale(-1, 1);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: auto;
+      width: 100%;
+      z-index: 1;
+    }
+
+    @media only screen and (max-width: 600px) {
+      video {
+          max-width: 160px;
+      }
+    }
+  }
+
+  .live {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #222;
+
+    > canvas {
+      width: 400px;
+      height: 300px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      > canvas {
+        width: 160px;
+        width: 120px;
+      }
+    }
+  }
+
+  canvas {
+    display: block;
+  }
+}

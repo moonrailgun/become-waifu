@@ -5,7 +5,26 @@ import { FaceMesh, FACEMESH_TESSELATION } from '@mediapipe/face_mesh';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Camera } from '@mediapipe/camera_utils';
 import _snakeCase from 'lodash/snakeCase';
-import './demo.css';
+import './demo.less';
+
+const rootEl = document.createElement('div');
+rootEl.className = 'become-waifu';
+const debugPreviewEl = document.createElement('div');
+debugPreviewEl.className = 'preview';
+const debugPreviewInputEl = document.createElement('video');
+const debugPreviewGuidesEl = document.createElement('canvas');
+debugPreviewGuidesEl.className = 'guides';
+const live2dContainerEl = document.createElement('div');
+live2dContainerEl.className = 'live';
+const live2dPreviewEl = document.createElement('canvas');
+
+debugPreviewEl.appendChild(debugPreviewInputEl);
+debugPreviewEl.appendChild(debugPreviewGuidesEl);
+live2dContainerEl.appendChild(live2dPreviewEl);
+rootEl.appendChild(debugPreviewEl);
+rootEl.appendChild(live2dContainerEl);
+
+document.body.append(rootEl);
 
 // Kalidokit provides a simple easing function
 // (linear interpolation) used for animation smoothness
@@ -23,25 +42,21 @@ const modelUrl = '/models/diana/Diana1.0.model3.json';
 let currentModel;
 let facemesh;
 
-const videoElement: HTMLVideoElement = document.querySelector('.input_video');
-const guideCanvas: HTMLCanvasElement = document.querySelector('canvas.guides');
-
 (async function main() {
   // create pixi application
   const app = new Application({
-    view: document.getElementById('live2d') as HTMLCanvasElement,
+    view: live2dPreviewEl,
     autoStart: true,
     backgroundAlpha: 0,
     backgroundColor: 0xffffff,
-    resizeTo: window,
   });
 
   // load live2d model
   currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-  currentModel.scale.set(0.4);
+  currentModel.scale.set(0.2);
   currentModel.interactive = true;
   currentModel.anchor.set(0.5, 0.5);
-  currentModel.position.set(window.innerWidth * 0.5, window.innerHeight * 0.8);
+  currentModel.position.set(app.view.width * 0.5, app.view.height * 0.8);
 
   // Add events to drag model
   currentModel.on('pointerdown', (e) => {
@@ -62,14 +77,12 @@ const guideCanvas: HTMLCanvasElement = document.querySelector('canvas.guides');
   });
 
   // Add mousewheel events to scale model
-  document
-    .querySelector('#live2d')
-    .addEventListener('wheel', (e: WheelEvent) => {
-      e.preventDefault();
-      currentModel.scale.set(
-        clamp(currentModel.scale.x + e.deltaY * -0.001, -0.5, 10)
-      );
-    });
+  live2dPreviewEl.addEventListener('wheel', (e: WheelEvent) => {
+    e.preventDefault();
+    currentModel.scale.set(
+      clamp(currentModel.scale.x + e.deltaY * -0.001, -0.5, 10)
+    );
+  });
 
   // add live2d model to stage
   app.stage.addChild(currentModel);
@@ -102,12 +115,19 @@ const onResults = (results) => {
 
 // draw connectors and landmarks on output canvas
 const drawResults = (points) => {
-  if (!guideCanvas || !videoElement || !points) return;
-  guideCanvas.width = videoElement.videoWidth;
-  guideCanvas.height = videoElement.videoHeight;
-  let canvasCtx = guideCanvas.getContext('2d');
+  if (!debugPreviewGuidesEl || !debugPreviewInputEl || !points) {
+    return;
+  }
+  debugPreviewGuidesEl.width = debugPreviewInputEl.videoWidth;
+  debugPreviewGuidesEl.height = debugPreviewInputEl.videoHeight;
+  let canvasCtx = debugPreviewGuidesEl.getContext('2d');
   canvasCtx.save();
-  canvasCtx.clearRect(0, 0, guideCanvas.width, guideCanvas.height);
+  canvasCtx.clearRect(
+    0,
+    0,
+    debugPreviewGuidesEl.width,
+    debugPreviewGuidesEl.height
+  );
   // Use `Mediapipe` drawing functions
   drawConnectors(canvasCtx, points, FACEMESH_TESSELATION, {
     color: '#C0C0C070',
@@ -131,7 +151,7 @@ const animateLive2DModel = (points) => {
     // use kalidokit face solver
     riggedFace = Face.solve(points, {
       runtime: 'mediapipe',
-      video: videoElement,
+      video: debugPreviewInputEl,
     });
     rigFace(riggedFace, 0.5);
   }
@@ -249,12 +269,13 @@ const rigFace = (result: Kalidokit.TFace, lerpAmount = 0.7) => {
 
 // start camera using mediapipe camera utils
 const startCamera = () => {
-  const camera = new Camera(videoElement, {
+  const camera = new Camera(debugPreviewInputEl, {
     onFrame: async () => {
-      await facemesh.send({ image: videoElement });
+      await facemesh.send({ image: debugPreviewInputEl });
     },
     width: 640,
     height: 480,
   });
+
   camera.start();
 };
