@@ -30,7 +30,8 @@ const {
 
 // Url to Live2D
 // const modelUrl = '/models/hiyori/hiyori_pro_t10.model3.json';
-const modelUrl = '/models/diana/Diana1.0.model3.json';
+const modelUrl =
+  (window as any).live2dModelUrl || '/models/diana/Diana1.0.model3.json';
 
 let currentModel;
 let facemesh;
@@ -85,7 +86,12 @@ export async function startBecomeWaifu() {
   // create media pipe facemesh instance
   facemesh = new FaceMesh({
     locateFile: (file) => {
-      return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+      const vendorUrl =
+        (window as any).facemeshVendorUrl ||
+        'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh';
+      const fileUrl = `${vendorUrl}/${file}`;
+      console.log('locateFile', fileUrl);
+      return `${fileUrl}`;
     },
   });
 
