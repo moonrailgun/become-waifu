@@ -3,17 +3,14 @@
  */
 
 import type { Configuration } from 'webpack';
-import { DefinePlugin } from 'webpack';
 // import type WebpackDevServer from 'webpack-dev-server';
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import dayjs from 'dayjs';
 import CopyPlugin from 'copy-webpack-plugin';
 
 delete process.env.TS_NODE_PROJECT; // https://github.com/dividab/tsconfig-paths-webpack-plugin/issues/32
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../package.json');
 
 const ROOT_PATH = path.resolve(__dirname, '../');
 const DIST_PATH = path.resolve(ROOT_PATH, './dist');
@@ -25,14 +22,6 @@ const isDev = NODE_ENV === 'development';
 const mode = isDev ? 'development' : 'production';
 
 const plugins: Configuration['plugins'] = [
-  new DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-    'process.env.VERSION': JSON.stringify(
-      `${process.env.VERSION || packageJson.version}-${dayjs().format(
-        'YYYYMMDDHHmm'
-      )}`
-    ),
-  }),
   new HtmlWebpackPlugin({
     title: 'Become Waifu',
     inject: true,
@@ -50,19 +39,22 @@ const plugins: Configuration['plugins'] = [
 ];
 
 const config: Configuration = {
-  mode,
+  // mode,
+  mode: 'development',
+  devtool: 'inline-cheap-module-source-map',
   entry: {
     app: path.resolve(ROOT_PATH, './src/index.ts'),
   },
   output: {
     path: DIST_PATH,
-    filename: '[name].[contenthash].js',
+    // filename: '[name].[contenthash].js',
+    filename: 'become-waifu.js',
     publicPath: ASSET_PATH,
   },
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.[tj]sx?$/,
         exclude: /node_modules/,
         loader: 'esbuild-loader',
         options: {
@@ -93,6 +85,9 @@ const config: Configuration = {
       },
     ],
   },
+  externals: {
+    fs: "require('fs')",
+  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.css'],
     plugins: [
@@ -100,7 +95,9 @@ const config: Configuration = {
         configFile: path.resolve(ROOT_PATH, './tsconfig.json'),
       }),
     ],
-    fallback: {},
+    fallback: {
+      path: require.resolve('path-browserify'),
+    },
   },
   plugins,
 };

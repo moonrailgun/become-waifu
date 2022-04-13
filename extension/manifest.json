@@ -1,0 +1,27 @@
+{
+  "name": "Become Waifu",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "If you have no waifu, you can become her",
+  "homepage_url": "https://github.com/moonrailgun/become-waifu",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "lib/become-waifu.js"
+      ]
+    }
+  ],
+  "browser_action": {
+    "default_title": "Trans!"
+  },
+  "permissions": [
+    "<all_urls>"
+  ]
+}

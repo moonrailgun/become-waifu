@@ -1,19 +1,15 @@
-body {
-  margin: 0;
-}
-
 .become-waifu {
   .preview {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
     bottom: 16px;
     left: 16px;
     overflow: hidden;
     border-radius: 8px;
     background: #222;
 
-    display: none;
+    display: none; // display in debug
 
     video {
       max-width: 400px;
@@ -39,7 +35,7 @@ body {
   }
 
   .live {
-    position: absolute;
+    position: fixed;
     bottom: 16px;
     right: 16px;
     overflow: hidden;

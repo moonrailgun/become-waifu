@@ -5,7 +5,8 @@ import { FaceMesh, FACEMESH_TESSELATION } from '@mediapipe/face_mesh';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Camera } from '@mediapipe/camera_utils';
 import _snakeCase from 'lodash/snakeCase';
-import './demo.less';
+import _once from 'lodash/once';
+import './render.less';
 
 const rootEl = document.createElement('div');
 rootEl.className = 'become-waifu';
@@ -17,14 +18,6 @@ debugPreviewGuidesEl.className = 'guides';
 const live2dContainerEl = document.createElement('div');
 live2dContainerEl.className = 'live';
 const live2dPreviewEl = document.createElement('canvas');
-
-debugPreviewEl.appendChild(debugPreviewInputEl);
-debugPreviewEl.appendChild(debugPreviewGuidesEl);
-live2dContainerEl.appendChild(live2dPreviewEl);
-rootEl.appendChild(debugPreviewEl);
-rootEl.appendChild(live2dContainerEl);
-
-document.body.append(rootEl);
 
 // Kalidokit provides a simple easing function
 // (linear interpolation) used for animation smoothness
@@ -42,7 +35,9 @@ const modelUrl = '/models/diana/Diana1.0.model3.json';
 let currentModel;
 let facemesh;
 
-(async function main() {
+export async function startBecomeWaifu() {
+  initDom();
+
   // create pixi application
   const app = new Application({
     view: live2dPreviewEl,
@@ -106,7 +101,22 @@ let facemesh;
   facemesh.onResults(onResults);
 
   startCamera();
-})();
+}
+
+/**
+ * 初始化dom节点
+ *
+ * 只能被调用一次
+ */
+const initDom = _once(() => {
+  debugPreviewEl.appendChild(debugPreviewInputEl);
+  debugPreviewEl.appendChild(debugPreviewGuidesEl);
+  live2dContainerEl.appendChild(live2dPreviewEl);
+  rootEl.appendChild(debugPreviewEl);
+  rootEl.appendChild(live2dContainerEl);
+
+  document.body.append(rootEl);
+});
 
 const onResults = (results) => {
   drawResults(results.multiFaceLandmarks[0]);

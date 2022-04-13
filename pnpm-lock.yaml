@@ -7,6 +7,7 @@ specifiers:
   '@mediapipe/holistic': ^0.5.1635989137
   '@pixi/app': ^6.3.0
   '@pixi/ticker': ^6.3.0
+  '@types/chrome': ^0.0.181
   '@types/lodash': ^4.14.181
   '@vue/reactivity': ^3.2.32
   copy-webpack-plugin: ^10.2.4
@@ -20,8 +21,10 @@ specifiers:
   less-loader: ^10.2.0
   load-script: ^2.0.0
   lodash: ^4.17.21
+  path-browserify: ^1.0.1
   pixi-live2d-display: ^0.3.1
   pixi.js: ^6.3.0
+  rimraf: ^3.0.2
   style-loader: ^3.3.1
   ts-node: ^10.7.0
   tsconfig-paths-webpack-plugin: ^3.5.2
@@ -46,6 +49,7 @@ dependencies:
   pixi.js: 6.3.0
 
 devDependencies:
+  '@types/chrome': 0.0.181
   '@types/lodash': 4.14.181
   copy-webpack-plugin: 10.2.4_webpack@5.72.0
   cross-env: 7.0.3
@@ -55,6 +59,8 @@ devDependencies:
   html-webpack-plugin: 5.5.0_webpack@5.72.0
   less: 4.1.2
   less-loader: 10.2.0_less@4.1.2+webpack@5.72.0
+  path-browserify: 1.0.1
+  rimraf: 3.0.2
   style-loader: 3.3.1_webpack@5.72.0
   ts-node: 10.7.0_typescript@4.6.3
   tsconfig-paths-webpack-plugin: 3.5.2
@@ -596,6 +602,13 @@ packages:
       '@types/node': 17.0.23
     dev: true
 
+  /@types/chrome/0.0.181:
+    resolution: {integrity: sha512-34Ln9YVVC8a195ruqWeaty3pouFdCLr9L5kPcbRflQcxnbXQnHor9uETof8OhDf8JLDytSRDiuDsRXYQYQ+9FA==}
+    dependencies:
+      '@types/filesystem': 0.0.32
+      '@types/har-format': 1.2.8
+    dev: true
+
   /@types/connect-history-api-fallback/1.3.5:
     resolution: {integrity: sha512-h8QJa8xSb1WD4fpKBDcATDNGXghFj6/3GRWG6dhmRcu0RX1Ubasur2Uvx5aeEwlf0MwblEC2bMzzMQntxnw/Cw==}
     dependencies:
@@ -646,6 +659,20 @@ packages:
       '@types/express-serve-static-core': 4.17.28
       '@types/qs': 6.9.7
       '@types/serve-static': 1.13.10
+    dev: true
+
+  /@types/filesystem/0.0.32:
+    resolution: {integrity: sha512-Yuf4jR5YYMR2DVgwuCiP11s0xuVRyPKmz8vo6HBY3CGdeMj8af93CFZX+T82+VD1+UqHOxTq31lO7MI7lepBtQ==}
+    dependencies:
+      '@types/filewriter': 0.0.29
+    dev: true
+
+  /@types/filewriter/0.0.29:
+    resolution: {integrity: sha512-BsPXH/irW0ht0Ji6iw/jJaK8Lj3FJemon2gvEqHKpCdDCeemHa+rI3WBGq5z7cDMZgoLjY40oninGxqk+8NzNQ==}
+    dev: true
+
+  /@types/har-format/1.2.8:
+    resolution: {integrity: sha512-OP6L9VuZNdskgNN3zFQQ54ceYD8OLq5IbqO4VK91ORLfOm7WdT/CiT/pHEBSQEqCInJ2y3O6iCm/zGtPElpgJQ==}
     dev: true
 
   /@types/html-minifier-terser/6.1.0:
@@ -2624,6 +2651,10 @@ packages:
     dependencies:
       no-case: 3.0.4
       tslib: 2.3.1
+    dev: true
+
+  /path-browserify/1.0.1:
+    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: true
 
   /path-exists/4.0.0:
