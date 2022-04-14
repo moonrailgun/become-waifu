@@ -12,6 +12,8 @@ if (!(window as any).PIXI) {
       create();
     }
   );
+} else {
+  create();
 }
 
 /**

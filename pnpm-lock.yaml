@@ -9,11 +9,9 @@ specifiers:
   '@pixi/ticker': ^6.3.0
   '@types/chrome': ^0.0.181
   '@types/lodash': ^4.14.181
-  '@vue/reactivity': ^3.2.32
   copy-webpack-plugin: ^10.2.4
   cross-env: ^7.0.3
   css-loader: ^6.7.1
-  dayjs: ^1.11.0
   esbuild-loader: ^2.18.0
   html-webpack-plugin: ^5.5.0
   kalidokit: ^1.1.5
@@ -41,7 +39,6 @@ dependencies:
   '@mediapipe/holistic': 0.5.1635989137
   '@pixi/app': 6.3.0
   '@pixi/ticker': 6.3.0
-  '@vue/reactivity': 3.2.32
   kalidokit: 1.1.5
   load-script: 2.0.0
   lodash: 4.17.21
@@ -54,7 +51,6 @@ devDependencies:
   copy-webpack-plugin: 10.2.4_webpack@5.72.0
   cross-env: 7.0.3
   css-loader: 6.7.1_webpack@5.72.0
-  dayjs: 1.11.0
   esbuild-loader: 2.18.0_webpack@5.72.0
   html-webpack-plugin: 5.5.0_webpack@5.72.0
   less: 4.1.2
@@ -746,16 +742,6 @@ packages:
       '@types/node': 17.0.23
     dev: true
 
-  /@vue/reactivity/3.2.32:
-    resolution: {integrity: sha512-4zaDumuyDqkuhbb63hRd+YHFGopW7srFIWesLUQ2su/rJfWrSq3YUvoKAJE8Eu1EhZ2Q4c1NuwnEreKj1FkDxA==}
-    dependencies:
-      '@vue/shared': 3.2.32
-    dev: false
-
-  /@vue/shared/3.2.32:
-    resolution: {integrity: sha512-bjcixPErUsAnTQRQX4Z5IQnICYjIfNCyCl8p29v1M6kfVzvwOICPw+dz48nNuWlTOOx2RHhzHdazJibE8GSnsw==}
-    dev: false
-
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
     dependencies:
@@ -1324,10 +1310,6 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
-    dev: true
-
-  /dayjs/1.11.0:
-    resolution: {integrity: sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==}
     dev: true
 
   /debug/2.6.9:

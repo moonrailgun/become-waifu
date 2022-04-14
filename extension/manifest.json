@@ -10,8 +10,14 @@
     ],
     "persistent": true
   },
+  "icons": {
+		"16": "icon@16.png",
+		"48": "icon@48.png",
+		"128": "icon@128.png"
+	},
   "browser_action": {
-    "default_title": "Trans!"
+    "default_title": "Trans!",
+    "default_icon": "icon@16.png"
   },
   "web_accessible_resources": [
     "vendor/*",
