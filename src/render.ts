@@ -7,6 +7,7 @@ import { Camera } from '@mediapipe/camera_utils';
 import _snakeCase from 'lodash/snakeCase';
 import _once from 'lodash/once';
 import { bindUserMedia } from './bindUserMedia';
+import { renderController } from './renderController';
 import './render.less';
 
 const rootEl = document.createElement('div');
@@ -112,6 +113,13 @@ export async function startBecomeWaifu() {
 }
 
 /**
+ * 标记已经正常开始工作
+ */
+const markRigActived = _once(() => {
+  live2dContainerEl.classList.add('work');
+});
+
+/**
  * 初始化dom节点
  *
  * 只能被调用一次
@@ -123,10 +131,17 @@ const initDom = _once(() => {
   rootEl.appendChild(debugPreviewEl);
   rootEl.appendChild(live2dContainerEl);
 
+  const controllerEl = document.createElement('div');
+  controllerEl.className = 'controller';
+  live2dContainerEl.prepend(controllerEl);
+  renderController(rootEl, controllerEl);
+
   document.body.append(rootEl);
 });
 
 const onResults = (results) => {
+  markRigActived();
+
   drawResults(results.multiFaceLandmarks[0]);
   animateLive2DModel(results.multiFaceLandmarks[0]);
 };

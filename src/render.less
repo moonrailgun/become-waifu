@@ -1,4 +1,8 @@
 .become-waifu {
+  // 确保视图在最上
+  z-index: 99999;
+  position: fixed;
+
   .preview {
     display: flex;
     flex-direction: column;
@@ -8,13 +12,13 @@
     overflow: hidden;
     border-radius: 8px;
     background: #222;
-
-    // display: none; // display in debug
+    display: none;
 
     video {
       max-width: 400px;
       height: auto;
       transform: scale(-1, 1);
+      margin-bottom: -5px; // 一些玄学问题
     }
 
     .guides {
@@ -29,7 +33,7 @@
 
     @media only screen and (max-width: 600px) {
       video {
-          max-width: 160px;
+        max-width: 160px;
       }
     }
   }
@@ -39,10 +43,31 @@
     bottom: 16px;
     right: 16px;
     overflow: hidden;
-    border-radius: 8px;
-    background: #222;
+    display: flex;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      background-color: #db4a4a;
+      border: 2px solid white;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+    }
+
+    &.work {
+      &::after {
+        background-color: #2bf184;
+      }
+    }
 
     > canvas {
+      background: #222;
+      display: block;
+      border-radius: 8px;
       width: 400px;
       height: 300px;
     }
@@ -55,7 +80,55 @@
     }
   }
 
-  canvas {
+  // For controller
+  &.debug .preview {
     display: block;
+  }
+
+  &.hide {
+    .preview {
+      left: -400px;
+    }
+
+    .live {
+      right: -400px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .preview {
+        left: -160px;
+      }
+
+      .live {
+        right: -160px;
+      }
+    }
+  }
+
+  &.hide-preview-video .preview video {
+    opacity: 0;
+  }
+  &.hide-preview-guides .preview .guides {
+    display: none;
+  }
+
+  .controller {
+    margin-right: 10px;
+    > div {
+      color: white;
+      background-color: #222;
+      border: 2px solid white;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      line-height: 24px;
+      border-radius: 50%;
+      margin-bottom: 4px;
+
+      &.active {
+        color: #222;
+        background-color: white;
+      }
+    }
   }
 }
