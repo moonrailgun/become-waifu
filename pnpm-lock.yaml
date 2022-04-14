@@ -4,7 +4,6 @@ specifiers:
   '@mediapipe/camera_utils': ^0.3.1640029074
   '@mediapipe/drawing_utils': ^0.3.1620248257
   '@mediapipe/face_mesh': ^0.4.1633559619
-  '@mediapipe/holistic': ^0.5.1635989137
   '@pixi/app': ^6.3.0
   '@pixi/ticker': ^6.3.0
   '@types/chrome': ^0.0.181
@@ -36,7 +35,6 @@ dependencies:
   '@mediapipe/camera_utils': 0.3.1640029074
   '@mediapipe/drawing_utils': 0.3.1620248257
   '@mediapipe/face_mesh': 0.4.1633559619
-  '@mediapipe/holistic': 0.5.1635989137
   '@pixi/app': 6.3.0
   '@pixi/ticker': 6.3.0
   kalidokit: 1.1.5
@@ -99,10 +97,6 @@ packages:
 
   /@mediapipe/face_mesh/0.4.1633559619:
     resolution: {integrity: sha512-Vc8cdjxS5+O2gnjWH9KncYpUCVXT0h714KlWAsyqJvJbIgUJBqpppbIx8yWcAzBDxm/5cYSuBI5p5ySIPxzcEg==}
-    dev: false
-
-  /@mediapipe/holistic/0.5.1635989137:
-    resolution: {integrity: sha512-iY1bOZ4QUR1jBwJzmaQI6u3BZLYfOTAdj2S8EgXPp/ngGtcyNN3oaVH3eTGUBzYsBd/MXG1RmDzBPd9e9DyKJw==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
