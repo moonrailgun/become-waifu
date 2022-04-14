@@ -4,6 +4,7 @@ import loadScript from 'load-script';
 import _once from 'lodash/once';
 
 if (!(window as any).PIXI) {
+  // pixi-live2d-display 必须要依赖全局的PIXI并需要在加载完毕后处理
   loadScript(
     'https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js',
     { async: true },

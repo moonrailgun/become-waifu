@@ -6,6 +6,7 @@ import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Camera } from '@mediapipe/camera_utils';
 import _snakeCase from 'lodash/snakeCase';
 import _once from 'lodash/once';
+import { bindUserMedia } from './bindUserMedia';
 import './render.less';
 
 const rootEl = document.createElement('div');
@@ -90,7 +91,6 @@ export async function startBecomeWaifu() {
         (window as any).facemeshVendorUrl ||
         'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh';
       const fileUrl = `${vendorUrl}/${file}`;
-      console.log('locateFile', fileUrl);
       return `${fileUrl}`;
     },
   });
@@ -107,6 +107,8 @@ export async function startBecomeWaifu() {
   facemesh.onResults(onResults);
 
   startCamera();
+
+  bindUserMedia(live2dPreviewEl);
 }
 
 /**
