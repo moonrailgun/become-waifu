@@ -8,6 +8,8 @@
 
 无需安装任何软件就能在网页串流服务中使用！可用于支持网页端的视频会议与直播。
 
+[在bilibili观看演示视频](https://www.bilibili.com/video/BV17r4y1873S)
+
 ## 用法 Usage
 
 - 打开任意网页端视频会话软件
