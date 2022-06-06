@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/moonrailgun/become-waifu#readme",
   "devDependencies": {
-    "@types/chrome": "^0.0.181",
+    "@types/chrome": "^0.0.188",
     "@types/lodash": "^4.14.181",
     "copy-webpack-plugin": "^10.2.4",
     "cross-env": "^7.0.3",
