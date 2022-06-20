@@ -89,6 +89,13 @@
     display: block;
   }
 
+  &:not(.debug) {
+    .controller-btn-hide-preview-video,
+    .controller-btn-hide-preview-guides {
+      display: none;
+    }
+  }
+
   &.hide {
     .preview {
       left: -400px;
@@ -129,6 +136,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
 
       &.active {
         color: #222;
