@@ -36,7 +36,7 @@ const modelUrl =
   (window as any).live2dModelUrl || '/models/diana/Diana1.0.model3.json';
 
 let currentModel;
-let facemesh;
+let facemesh: FaceMesh;
 
 export async function startBecomeWaifu() {
   initDom();

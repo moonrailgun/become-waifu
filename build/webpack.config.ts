@@ -47,10 +47,9 @@ const config: Configuration = {
   },
   output: {
     path: DIST_PATH,
-    // filename: '[name].[contenthash].js',
-    filename: 'become-waifu.js',
     publicPath: ASSET_PATH,
-    asyncChunks: false,
+    asyncChunks: true,
+    library: { name: 'become_waifu', type: 'commonjs2' },
   },
   module: {
     rules: [

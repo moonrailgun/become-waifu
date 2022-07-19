@@ -30,6 +30,7 @@ specifiers:
   webpack: ^5.72.0
   webpack-cli: ^4.9.2
   webpack-dev-server: ^4.8.1
+  webpack-merge: ^5.8.0
 
 dependencies:
   '@mediapipe/camera_utils': 0.3.1640029074
@@ -63,6 +64,7 @@ devDependencies:
   webpack: 5.72.0_webpack-cli@4.9.2
   webpack-cli: 4.9.2_bv736sjijtxic6pos6xnptyfwq
   webpack-dev-server: 4.8.1_q7qo2wgeiyigo3znjsjh7f36ue
+  webpack-merge: 5.8.0
 
 packages:
 
@@ -2248,7 +2250,7 @@ packages:
     dev: false
 
   /isobject/3.0.1:
-    resolution: {integrity: sha1-TkMekrEalzFjaqH5yNHMvP2reN8=}
+    resolution: {integrity: sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==}
     engines: {node: '>=0.10.0'}
     dev: true
 
