@@ -2,7 +2,7 @@
   "name": "become-waifu",
   "version": "1.0.0",
   "description": "变成自己的二次元老婆",
-  "main": "index.js",
+  "main": "lib/app.js",
   "scripts": {
     "dev": "cross-env TS_NODE_PROJECT='tsconfig.node.json' NODE_ENV=development webpack serve --config ./build/webpack.config.ts",
     "build:extension": "cross-env TS_NODE_PROJECT='tsconfig.node.json' webpack --config ./build/webpack.config.extension.ts && rimraf ./extension/lib/ && mv ./dist/ ./extension/lib/",
@@ -51,6 +51,6 @@
     "load-script": "^2.0.0",
     "lodash": "^4.17.21",
     "pixi-live2d-display": "^0.3.1",
-    "pixi.js": "^6.3.0"
+    "pixi.js": "5.1.3"
   }
 }

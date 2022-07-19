@@ -1,13 +1,18 @@
 import { Application } from 'pixi.js';
-import { Live2DModel } from 'pixi-live2d-display';
+import { Live2DModel, ModelSettings } from 'pixi-live2d-display';
 import * as Kalidokit from 'kalidokit';
-import { FaceMesh, FACEMESH_TESSELATION } from '@mediapipe/face_mesh';
+import {
+  FaceMesh,
+  FACEMESH_TESSELATION,
+  NormalizedLandmarkList,
+} from '@mediapipe/face_mesh';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Camera } from '@mediapipe/camera_utils';
 import _snakeCase from 'lodash/snakeCase';
 import _once from 'lodash/once';
 import { bindUserMedia } from './bindUserMedia';
 import { renderController } from './renderController';
+import { FrameManager } from './utils';
 import './render.less';
 
 const rootEl = document.createElement('div');
@@ -15,6 +20,7 @@ rootEl.className = 'become-waifu';
 const debugPreviewEl = document.createElement('div');
 debugPreviewEl.className = 'preview';
 const debugPreviewInputEl = document.createElement('video');
+debugPreviewInputEl.autoplay = true;
 const debugPreviewGuidesEl = document.createElement('canvas');
 debugPreviewGuidesEl.className = 'guides';
 const live2dContainerEl = document.createElement('div');
@@ -38,7 +44,7 @@ const modelUrl =
 let currentModel;
 let facemesh: FaceMesh;
 
-export async function startBecomeWaifu() {
+export async function fullBecomeWaifu() {
   initDom();
 
   // create pixi application
@@ -85,27 +91,7 @@ export async function startBecomeWaifu() {
   // add live2d model to stage
   app.stage.addChild(currentModel);
 
-  // create media pipe facemesh instance
-  facemesh = new FaceMesh({
-    locateFile: (file) => {
-      const vendorUrl =
-        (window as any).facemeshVendorUrl ||
-        'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh';
-      const fileUrl = `${vendorUrl}/${file}`;
-      return `${fileUrl}`;
-    },
-  });
-
-  // set facemesh config
-  facemesh.setOptions({
-    maxNumFaces: 1,
-    refineLandmarks: true,
-    minDetectionConfidence: 0.5,
-    minTrackingConfidence: 0.5,
-  });
-
-  // pass facemesh callback function
-  facemesh.onResults(onResults);
+  initFacemesh();
 
   startCamera();
 
@@ -139,15 +125,37 @@ const initDom = _once(() => {
   document.body.append(rootEl);
 });
 
-const onResults = (results) => {
-  markRigActived();
+function initFacemesh() {
+  // create media pipe facemesh instance
+  facemesh = new FaceMesh({
+    locateFile: (file) => {
+      const vendorUrl =
+        (window as any).facemeshVendorUrl ||
+        'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh';
+      const fileUrl = `${vendorUrl}/${file}`;
+      return `${fileUrl}`;
+    },
+  });
 
-  drawResults(results.multiFaceLandmarks[0]);
-  animateLive2DModel(results.multiFaceLandmarks[0]);
-};
+  // set facemesh config
+  facemesh.setOptions({
+    maxNumFaces: 1,
+    refineLandmarks: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5,
+  });
+
+  // pass facemesh callback function
+  facemesh.onResults((results) => {
+    markRigActived();
+
+    drawResults(results.multiFaceLandmarks[0]); // 绘制结果
+    animateLive2DModel(results.multiFaceLandmarks[0]); // 面部绑定
+  });
+}
 
 // draw connectors and landmarks on output canvas
-const drawResults = (points) => {
+const drawResults = (points: NormalizedLandmarkList) => {
   if (!debugPreviewGuidesEl || !debugPreviewInputEl || !points) {
     return;
   }
@@ -175,14 +183,14 @@ const drawResults = (points) => {
   }
 };
 
-const animateLive2DModel = (points) => {
-  if (!currentModel || !points) return;
-
-  let riggedFace: Kalidokit.TFace;
+const animateLive2DModel = (points: NormalizedLandmarkList) => {
+  if (!currentModel || !points) {
+    return;
+  }
 
   if (points) {
     // use kalidokit face solver
-    riggedFace = Face.solve(points, {
+    const riggedFace = Face.solve(points, {
       runtime: 'mediapipe',
       video: debugPreviewInputEl,
     });
@@ -312,3 +320,49 @@ const startCamera = () => {
 
   camera.start();
 };
+
+export interface BecomeWaifuOptions {
+  videoMediaTrack: MediaStreamTrack;
+  modelSource: string | object | ModelSettings;
+  frameRequestRate?: number;
+}
+
+/**
+ * 开始变成老婆
+ */
+export async function startBecomeWaifu(
+  options: BecomeWaifuOptions
+): Promise<MediaStreamTrack> {
+  const { videoMediaTrack, modelSource, frameRequestRate = 30 } = options;
+
+  debugPreviewInputEl.srcObject = new MediaStream([videoMediaTrack]); // 将流转换为dom节点
+
+  const app = new PIXI.Application({
+    view: live2dPreviewEl,
+    autoStart: true,
+    resizeTo: window,
+  });
+
+  const waifu = await Live2DModel.from(modelSource);
+  waifu.scale.set(0.3);
+
+  currentModel = waifu;
+
+  app.stage.addChild(waifu);
+
+  initFacemesh();
+
+  // document.body.appendChild(debugPreviewGuidesEl);
+  // document.body.appendChild(live2dPreviewEl);
+
+  const frameManager = new FrameManager();
+  frameManager.start(async () => {
+    await facemesh.send({ image: debugPreviewInputEl });
+  });
+
+  const outputTrack = live2dPreviewEl
+    .captureStream(frameRequestRate)
+    .getVideoTracks()[0];
+
+  return outputTrack;
+}

@@ -49,7 +49,7 @@ const config: Configuration = {
     path: DIST_PATH,
     publicPath: ASSET_PATH,
     asyncChunks: true,
-    library: { name: 'become_waifu', type: 'commonjs2' },
+    library: { name: 'become_waifu', type: 'commonjs' },
   },
   module: {
     rules: [

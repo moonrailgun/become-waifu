@@ -25,5 +25,5 @@ if (!(window as any).PIXI) {
  */
 async function create() {
   console.log('创建live2d模型');
-  import('./render').then((m) => m.startBecomeWaifu());
+  import('./render').then((m) => m.fullBecomeWaifu());
 }
