@@ -12,9 +12,8 @@ import _snakeCase from 'lodash/snakeCase';
 import _once from 'lodash/once';
 import { bindUserMedia } from './bindUserMedia';
 import { renderController } from './renderController';
-import { FrameManager } from './utils';
+import { BecomeWaifu, FaceStatus } from './BecomeWaifu';
 import './render.less';
-import { BecomeWaifu } from './BecomeWaifu';
 
 const rootEl = document.createElement('div');
 rootEl.className = 'become-waifu';
@@ -326,6 +325,7 @@ export interface BecomeWaifuOptions {
   videoMediaTrack: MediaStreamTrack;
   modelSource: string | object | ModelSettings;
   frameRequestRate?: number;
+  onFaceStatusUpdated?: (faceStatus: FaceStatus) => void;
 }
 
 /**
@@ -334,13 +334,22 @@ export interface BecomeWaifuOptions {
 export async function startBecomeWaifu(
   options: BecomeWaifuOptions
 ): Promise<MediaStreamTrack> {
-  const { videoMediaTrack, modelSource, frameRequestRate = 30 } = options;
+  const {
+    videoMediaTrack,
+    modelSource,
+    frameRequestRate = 30,
+    onFaceStatusUpdated,
+  } = options;
 
   const becomeWaifu = new BecomeWaifu({
     videoMediaTrack,
     modelSource,
     drawGuide: true,
   });
+
+  if (onFaceStatusUpdated) {
+    becomeWaifu.on('updateFaceStatus', onFaceStatusUpdated);
+  }
 
   const track = becomeWaifu.start(frameRequestRate);
 

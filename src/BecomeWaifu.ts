@@ -13,11 +13,19 @@ import {
 } from 'pixi-live2d-display';
 import { FrameManager, trackToStream } from './utils';
 import _snakeCase from 'lodash/snakeCase';
+import _isEqual from 'lodash/isEqual';
+import { EventEmitter } from 'eventemitter-strict';
 
 const {
   Face,
   Vector: { lerp },
 } = Kalidokit;
+
+export type FaceStatus = 'init' | 'health' | 'lose';
+
+interface BecomeWaifuEvents {
+  updateFaceStatus: (faceStatus: FaceStatus) => void;
+}
 
 export interface BecomeWaifuOptions {
   videoMediaTrack: MediaStreamTrack;
@@ -38,17 +46,17 @@ export interface BecomeWaifuOptions {
   drawGuide?: boolean;
 }
 
-export class BecomeWaifu {
+export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
   inputVideoEl = document.createElement('video');
   outputCanvasEl = document.createElement('canvas');
   guideCanvasEl = document.createElement('canvas');
   live2dModel: Live2DModel<Cubism2InternalModel | Cubism4InternalModel>;
-  actived = false;
+  faceStatus: FaceStatus = 'init';
   private facemesh: FaceMesh;
   private frameManager: FrameManager;
 
   constructor(public options: BecomeWaifuOptions) {
-    this.inputVideoEl.autoplay = true;
+    super();
 
     // create pixi application
     const app = new PIXI.Application({
@@ -62,6 +70,7 @@ export class BecomeWaifu {
     // document.body.appendChild(this.outputCanvasEl);
 
     this.inputVideoEl.srcObject = trackToStream(options.videoMediaTrack);
+    this.inputVideoEl.autoplay = true;
 
     this.initLive2dModel().then(() => {
       this.live2dModel.position.set(
@@ -104,6 +113,13 @@ export class BecomeWaifu {
       .getVideoTracks()[0];
   }
 
+  private updateFaceStatus(faceStatus: FaceStatus) {
+    if (this.faceStatus !== faceStatus) {
+      this.faceStatus = faceStatus;
+      this.emit('updateFaceStatus', faceStatus);
+    }
+  }
+
   private async initLive2dModel() {
     this.live2dModel = (await Live2DModel.from(this.options.modelSource, {
       autoInteract: false,
@@ -132,10 +148,16 @@ export class BecomeWaifu {
 
     // 面部捕捉回调
     this.facemesh.onResults((results) => {
-      this.actived = true;
+      const faceLandmarks = results.multiFaceLandmarks[0];
 
-      this.drawResults(results.multiFaceLandmarks[0]); // 绘制结果
-      this.animateLive2DModel(results.multiFaceLandmarks[0]); // 面部绑定
+      if (!faceLandmarks) {
+        this.updateFaceStatus('lose');
+      } else {
+        this.updateFaceStatus('health');
+      }
+
+      this.drawResults(faceLandmarks); // 绘制结果
+      this.animateLive2DModel(faceLandmarks); // 面部绑定
     });
   }
 
