@@ -14,6 +14,7 @@ import { bindUserMedia } from './bindUserMedia';
 import { renderController } from './renderController';
 import { FrameManager } from './utils';
 import './render.less';
+import { BecomeWaifu } from './BecomeWaifu';
 
 const rootEl = document.createElement('div');
 rootEl.className = 'become-waifu';
@@ -335,34 +336,13 @@ export async function startBecomeWaifu(
 ): Promise<MediaStreamTrack> {
   const { videoMediaTrack, modelSource, frameRequestRate = 30 } = options;
 
-  debugPreviewInputEl.srcObject = new MediaStream([videoMediaTrack]); // 将流转换为dom节点
-
-  const app = new PIXI.Application({
-    view: live2dPreviewEl,
-    autoStart: true,
-    resizeTo: window,
+  const becomeWaifu = new BecomeWaifu({
+    videoMediaTrack,
+    modelSource,
+    drawGuide: true,
   });
 
-  const waifu = await Live2DModel.from(modelSource);
-  waifu.scale.set(0.3);
+  const track = becomeWaifu.start(frameRequestRate);
 
-  currentModel = waifu;
-
-  app.stage.addChild(waifu);
-
-  initFacemesh();
-
-  // document.body.appendChild(debugPreviewGuidesEl);
-  // document.body.appendChild(live2dPreviewEl);
-
-  const frameManager = new FrameManager();
-  frameManager.start(async () => {
-    await facemesh.send({ image: debugPreviewInputEl });
-  });
-
-  const outputTrack = live2dPreviewEl
-    .captureStream(frameRequestRate)
-    .getVideoTracks()[0];
-
-  return outputTrack;
+  return track;
 }

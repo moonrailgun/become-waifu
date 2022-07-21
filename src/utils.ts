@@ -1,5 +1,6 @@
 export class FrameManager {
   active = false;
+  timer: number | undefined;
 
   /**
    * 开启桢循环
@@ -14,7 +15,11 @@ export class FrameManager {
   }
 
   onFrame = (cb: () => void | Promise<void>) => {
-    window.requestAnimationFrame(() => {
+    this.timer = window.requestAnimationFrame(() => {
+      if (!this.active) {
+        return;
+      }
+
       const p = cb();
       if (p) {
         p.then(() => this.onFrame(cb));
@@ -23,4 +28,11 @@ export class FrameManager {
       }
     });
   };
+}
+
+/**
+ * 媒体轨转媒体流
+ */
+export function trackToStream(track: MediaStreamTrack): MediaStream {
+  return new MediaStream([track]);
 }

@@ -21,7 +21,8 @@ export function View() {
         const stream = webcamRef.current.captureStream(30);
         const waifuTrack = await becomeWaifu({
           modelSource:
-            'https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json',
+            // 'https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json',
+            '/live2d/hiyori/hiyori_pro_t10.model3.json',
           videoMediaTrack: stream.getVideoTracks()[0],
         });
 
