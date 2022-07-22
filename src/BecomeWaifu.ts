@@ -8,6 +8,7 @@ import * as Kalidokit from 'kalidokit';
 import {
   Cubism2InternalModel,
   Cubism4InternalModel,
+  Live2DFactory,
   Live2DModel,
   ModelSettings,
 } from 'pixi-live2d-display';
@@ -29,7 +30,7 @@ interface BecomeWaifuEvents {
 
 export interface BecomeWaifuOptions {
   videoMediaTrack: MediaStreamTrack;
-  modelSource: string | object | ModelSettings;
+  modelSource: string | object | ModelSettings | File[];
   /**
    * 模型尺寸缩放
    */
@@ -121,9 +122,21 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
   }
 
   private async initLive2dModel() {
-    this.live2dModel = (await Live2DModel.from(this.options.modelSource, {
-      autoInteract: false,
-    })) as Live2DModel<Cubism2InternalModel | Cubism4InternalModel>;
+    const modelSource = this.options.modelSource;
+    if (Array.isArray(modelSource) && modelSource[0].name.endsWith('.zip')) {
+      // 是文件来源 且是zip包
+      const pixiModel = new Live2DModel<
+        Cubism2InternalModel | Cubism4InternalModel
+      >();
+      await import('./utils/zip');
+      await Live2DFactory.setupLive2DModel(pixiModel, modelSource);
+      this.live2dModel = pixiModel;
+    } else {
+      this.live2dModel = (await Live2DModel.from(this.options.modelSource, {
+        autoInteract: false,
+      })) as Live2DModel<Cubism2InternalModel | Cubism4InternalModel>;
+    }
+
     this.live2dModel.scale.set(this.options.modelScale ?? 0.3);
     this.live2dModel.interactive = true;
     this.live2dModel.anchor.set(0.5, 0.5);

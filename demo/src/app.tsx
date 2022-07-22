@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import preactLogo from './assets/preact.svg';
 import { View } from './View';
+import { DropArea } from './DropArea';
 import './App.css';
 
 export function App() {
@@ -17,6 +18,8 @@ export function App() {
         </a>
       </div>
       <h1>Vite + Preact</h1>
+
+      <DropArea />
 
       {!show ? (
         <button onClick={() => setShow(true)}>打开摄像头</button>

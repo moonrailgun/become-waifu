@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mediapipe/camera_utils": "^0.3.1640029074",
+    "jotai": "^1.7.6",
     "preact": "^10.9.0"
   },
   "devDependencies": {

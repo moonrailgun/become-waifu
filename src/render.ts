@@ -333,7 +333,7 @@ export interface BecomeWaifuOptions {
  */
 export async function startBecomeWaifu(
   options: BecomeWaifuOptions
-): Promise<MediaStreamTrack> {
+): Promise<BecomeWaifu> {
   const {
     videoMediaTrack,
     modelSource,
@@ -351,7 +351,7 @@ export async function startBecomeWaifu(
     becomeWaifu.on('updateFaceStatus', onFaceStatusUpdated);
   }
 
-  const track = becomeWaifu.start(frameRequestRate);
+  becomeWaifu.start(frameRequestRate);
 
-  return track;
+  return becomeWaifu;
 }

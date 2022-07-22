@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { becomeWaifu } from '../../src/index';
+import { useAtom } from 'jotai';
+import { droppedFilesAtom } from './state';
 
 export function View() {
   const outputRef = useRef<HTMLVideoElement>(null);
   const [color, setColor] = useState('gray');
+  const [droppedFiles] = useAtom(droppedFilesAtom);
 
   useEffect(() => {
     (async () => {
@@ -12,8 +15,9 @@ export function View() {
           video: true,
         });
 
-        const waifuTrack = await becomeWaifu({
+        const waifu = await becomeWaifu({
           modelSource:
+            droppedFiles ??
             // 'https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json',
             '/live2d/hiyori/hiyori_pro_t10.model3.json',
           videoMediaTrack: stream.getVideoTracks()[0],
@@ -28,7 +32,9 @@ export function View() {
           },
         });
 
-        outputRef.current.srcObject = new MediaStream([waifuTrack]);
+        outputRef.current.srcObject = new MediaStream([
+          waifu.getOutputVideoTrack(),
+        ]);
         outputRef.current.autoplay = true;
       }
     })();

@@ -48,6 +48,7 @@
     "@pixi/app": "^6.3.0",
     "@pixi/ticker": "^6.3.0",
     "eventemitter-strict": "^1.0.1",
+    "jszip": "^3.10.0",
     "kalidokit": "^1.1.5",
     "load-script": "^2.0.0",
     "lodash": "^4.17.21",
