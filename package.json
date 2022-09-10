@@ -1,12 +1,14 @@
 {
   "name": "become-waifu",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "变成自己的二次元老婆",
   "main": "lib/app.js",
   "scripts": {
-    "dev": "cross-env TS_NODE_PROJECT='tsconfig.node.json' NODE_ENV=development webpack serve --config ./build/webpack.config.ts",
+    "dev": "cd demo && pnpm dev",
+    "dev:extension": "cross-env TS_NODE_PROJECT='tsconfig.node.json' NODE_ENV=development webpack serve --config ./build/webpack.config.extension.ts",
     "build:extension": "cross-env TS_NODE_PROJECT='tsconfig.node.json' webpack --config ./build/webpack.config.extension.ts && rimraf ./extension/lib/ && mv ./dist/ ./extension/lib/",
     "build": "cross-env TS_NODE_PROJECT='tsconfig.node.json' webpack --config ./build/webpack.config.ts && rimraf ./lib/ && mv ./dist/ ./lib/",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
