@@ -30,6 +30,7 @@ export function View() {
               setColor('gray');
             }
           },
+          showStats: true,
         });
 
         outputRef.current.srcObject = new MediaStream([

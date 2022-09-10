@@ -1,9 +1,6 @@
-import type { ModelSettings } from 'pixi-live2d-display';
-import { BecomeWaifu, FaceStatus } from './BecomeWaifu';
+import { BecomeWaifu, BecomeWaifuOptions, FaceStatus } from './BecomeWaifu';
 
-export interface BecomeWaifuOptions {
-  videoMediaTrack: MediaStreamTrack;
-  modelSource: string | object | ModelSettings;
+export interface StartBecomeWaifuOptions extends BecomeWaifuOptions {
   frameRequestRate?: number;
   onFaceStatusUpdated?: (faceStatus: FaceStatus) => void;
 }
@@ -12,20 +9,11 @@ export interface BecomeWaifuOptions {
  * 开始变成老婆
  */
 export async function startBecomeWaifu(
-  options: BecomeWaifuOptions
+  options: StartBecomeWaifuOptions
 ): Promise<BecomeWaifu> {
-  const {
-    videoMediaTrack,
-    modelSource,
-    frameRequestRate = 30,
-    onFaceStatusUpdated,
-  } = options;
+  const { frameRequestRate = 30, onFaceStatusUpdated } = options;
 
-  const becomeWaifu = new BecomeWaifu({
-    videoMediaTrack,
-    modelSource,
-    drawGuide: true,
-  });
+  const becomeWaifu = new BecomeWaifu(options);
 
   if (onFaceStatusUpdated) {
     becomeWaifu.on('updateFaceStatus', onFaceStatusUpdated);

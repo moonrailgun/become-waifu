@@ -15,6 +15,7 @@ import {
 import { FrameManager, trackToStream } from './utils';
 import { EventEmitter } from 'eventemitter-strict';
 import { snakeCase } from 'lodash-es';
+import Stats from 'stats.js';
 
 const {
   Face,
@@ -44,6 +45,10 @@ export interface BecomeWaifuOptions {
    * 是否绘制面部网格
    */
   drawGuide?: boolean;
+  /**
+   * 展示统计信息
+   */
+  showStats?: boolean;
 }
 
 export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
@@ -54,6 +59,7 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
   faceStatus: FaceStatus = 'init';
   private facemesh: FaceMesh;
   private frameManager: FrameManager;
+  stats: Stats = new Stats();
 
   constructor(public options: BecomeWaifuOptions) {
     super();
@@ -80,6 +86,11 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
       app.stage.addChild(this.live2dModel as any);
 
       this.initFacemesh();
+
+      if (options.showStats) {
+        this.stats.showPanel(0);
+        document.body.appendChild(this.stats.dom);
+      }
     });
   }
 
@@ -160,6 +171,7 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
 
     // 面部捕捉回调
     this.facemesh.onResults((results) => {
+      this.stats.begin();
       const faceLandmarks = results.multiFaceLandmarks[0];
 
       if (!faceLandmarks) {
@@ -340,6 +352,8 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
         'ParamMouthForm',
         (num) => 0.3 + lerp(result.mouth.x, num, 0.3)
       );
+
+      this.stats.end();
     };
   }
 }

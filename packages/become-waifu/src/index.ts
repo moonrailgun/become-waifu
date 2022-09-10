@@ -1,5 +1,5 @@
 import loadScript from 'load-script';
-import type { BecomeWaifuOptions } from './render';
+import type { StartBecomeWaifuOptions } from './render';
 
 const loadScriptP = (url: string, opts: Parameters<typeof loadScript>[1]) =>
   new Promise((resolve) => {
@@ -9,7 +9,7 @@ const loadScriptP = (url: string, opts: Parameters<typeof loadScript>[1]) =>
 /**
  * 变成waifu
  */
-export async function becomeWaifu(options: BecomeWaifuOptions) {
+export async function becomeWaifu(options: StartBecomeWaifuOptions) {
   /**
    * 开始创建转换
    */

@@ -53,12 +53,14 @@ importers:
       '@pixi/extensions': ^6.5.3
       '@pixi/ticker': ^6.5.3
       '@types/lodash-es': ^4.17.6
+      '@types/stats.js': ^0.17.0
       eventemitter-strict: ^1.0.1
       jszip: ^3.10.1
       kalidokit: ^1.1.5
       load-script: ^2.0.0
       lodash-es: ^4.17.21
       pixi-live2d-display: ^0.4.0
+      stats.js: ^0.17.0
       typescript: ^4.6.4
     dependencies:
       '@mediapipe/drawing_utils': 0.3.1620248257
@@ -68,10 +70,12 @@ importers:
       load-script: 2.0.0
       lodash-es: 4.17.21
       pixi-live2d-display: 0.4.0
+      stats.js: 0.17.0
     devDependencies:
       '@pixi/extensions': 6.5.3
       '@pixi/ticker': 6.5.3_@pixi+extensions@6.5.3
       '@types/lodash-es': 4.17.6
+      '@types/stats.js': 0.17.0
       jszip: 3.10.1
       typescript: 4.8.3
 
@@ -681,6 +685,10 @@ packages:
     resolution: {integrity: sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==}
     dependencies:
       '@types/node': 17.0.23
+    dev: true
+
+  /@types/stats.js/0.17.0:
+    resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
 
   /@types/ws/8.5.3:
@@ -3590,6 +3598,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /stats.js/0.17.0:
+    resolution: {integrity: sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==}
+    dev: false
 
   /statuses/1.5.0:
     resolution: {integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=}
