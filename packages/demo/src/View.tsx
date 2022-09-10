@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { becomeWaifu } from '../../src/index';
+import { becomeWaifu } from 'become-waifu';
 import { useAtom } from 'jotai';
 import { droppedFilesAtom } from './state';
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { useAtom } from 'jotai';
 import { droppedFilesAtom } from './state';
-import { readFiles } from '../../src/utils/file';
+import { readFiles } from 'become-waifu/lib/utils/file';
 
 export function DropArea() {
   const [isDragging, setIsDragging] = useState(false);

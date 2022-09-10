@@ -1,8 +1,5 @@
 import type { ModelSettings } from 'pixi-live2d-display';
-import _snakeCase from 'lodash/snakeCase';
-import _once from 'lodash/once';
 import { BecomeWaifu, FaceStatus } from './BecomeWaifu';
-import './render.less';
 
 export interface BecomeWaifuOptions {
   videoMediaTrack: MediaStreamTrack;

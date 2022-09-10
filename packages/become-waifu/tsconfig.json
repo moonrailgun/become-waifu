@@ -2,15 +2,16 @@
   "compilerOptions": {
     "target": "ES5",
     "lib": ["DOM"],
-    "jsx": "react",
     "esModuleInterop": true,
     "isolatedModules": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "strict": false,
     "importsNotUsedAsValues": "error",
+    "declaration": true,
     "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types", "../node_modules/@types", "./types"],
+    "outDir": "lib",
     "baseUrl": "."
   }
 }

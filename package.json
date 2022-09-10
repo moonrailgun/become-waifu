@@ -1,5 +1,6 @@
 {
-  "name": "become-waifu",
+  "name": "become-waifu-root",
+  "private": true,
   "version": "0.0.1",
   "description": "变成自己的二次元老婆",
   "main": "lib/app.js",
@@ -8,7 +9,6 @@
     "dev:extension": "cross-env TS_NODE_PROJECT='tsconfig.node.json' NODE_ENV=development webpack serve --config ./build/webpack.config.extension.ts",
     "build:extension": "cross-env TS_NODE_PROJECT='tsconfig.node.json' webpack --config ./build/webpack.config.extension.ts && rimraf ./extension/lib/ && mv ./dist/ ./extension/lib/",
     "build": "cross-env TS_NODE_PROJECT='tsconfig.node.json' webpack --config ./build/webpack.config.ts && rimraf ./lib/ && mv ./dist/ ./lib/",
-    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -42,19 +42,5 @@
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.8.1",
     "webpack-merge": "^5.8.0"
-  },
-  "dependencies": {
-    "@mediapipe/camera_utils": "^0.3.1640029074",
-    "@mediapipe/drawing_utils": "^0.3.1620248257",
-    "@mediapipe/face_mesh": "^0.4.1633559619",
-    "@pixi/app": "^6.3.0",
-    "@pixi/ticker": "^6.3.0",
-    "eventemitter-strict": "^1.0.1",
-    "jszip": "^3.10.0",
-    "kalidokit": "^1.1.5",
-    "load-script": "^2.0.0",
-    "lodash": "^4.17.21",
-    "pixi-live2d-display": "^0.3.1",
-    "pixi.js": "5.1.3"
   }
 }

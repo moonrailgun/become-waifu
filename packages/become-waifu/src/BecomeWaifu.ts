@@ -13,9 +13,8 @@ import {
   ModelSettings,
 } from 'pixi-live2d-display';
 import { FrameManager, trackToStream } from './utils';
-import _snakeCase from 'lodash/snakeCase';
-import _isEqual from 'lodash/isEqual';
 import { EventEmitter } from 'eventemitter-strict';
+import { snakeCase } from 'lodash-es';
 
 const {
   Face,
@@ -60,7 +59,7 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
     super();
 
     // create pixi application
-    const app = new PIXI.Application({
+    const app = new (window as any).PIXI.Application({
       view: this.outputCanvasEl,
       autoStart: true,
       // backgroundAlpha: 0,
@@ -74,11 +73,11 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
     this.inputVideoEl.autoplay = true;
 
     this.initLive2dModel().then(() => {
-      this.live2dModel.position.set(
+      (this.live2dModel as any).position.set(
         app.view.width * 0.5,
         app.view.height * 0.8
       );
-      app.stage.addChild(this.live2dModel);
+      app.stage.addChild(this.live2dModel as any);
 
       this.initFacemesh();
     });
@@ -137,8 +136,8 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
       })) as Live2DModel<Cubism2InternalModel | Cubism4InternalModel>;
     }
 
-    this.live2dModel.scale.set(this.options.modelScale ?? 0.3);
-    this.live2dModel.interactive = true;
+    (this.live2dModel as any).scale.set(this.options.modelScale ?? 0.3);
+    (this.live2dModel as any).interactive = true;
     this.live2dModel.anchor.set(0.5, 0.5);
   }
 
@@ -239,7 +238,7 @@ export class BecomeWaifu extends EventEmitter<BecomeWaifuEvents> {
       live2dModel.internalModel.eyeBlink = undefined;
 
       function switchToName2(name: string): string {
-        return _snakeCase(name).toUpperCase();
+        return snakeCase(name).toUpperCase();
       }
 
       function bindParam(name: string, fn: (val: number) => number) {
